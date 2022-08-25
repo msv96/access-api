@@ -19,20 +19,21 @@ app.get('/api/v1/report', async function (req, res) {
     if (url) {
       const html = await fetch(url);
       const doc = await html.text();
-      const data = await evaluate({
+      const final = await evaluate({
         source: doc,
         output: 'json',
         engine: 'htmlcs',
         level: 'WCAG2A',
       });
-      const result = data.includes('Object]\n')
-        ? data?.split('Object]\n')[1]
-        : data;
+      const result = final.includes('Object]\n')
+        ? final?.split('Object]\n')[1]
+        : final;
       res.status(200).json({ status: true, data: JSON.parse(result), date: new Date().toLocaleString() });
     } else {
       res.status(404).json({ status: false, message: 'URL is required' });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ status: false, message: error });
   }
 });
