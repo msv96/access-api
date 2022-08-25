@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import fetch from 'node-fetch';
 import { evaluate } from 'aatt';
+import pa11y from 'pa11y';
 
 const app = express();
 const port = process.env.PORT || 3004;
@@ -33,6 +34,20 @@ app.get('/api/v1/report', async function (req, res) {
       res.status(404).json({ status: false, message: 'URL is required' });
     }
   } catch (error) {
+    res.status(500).json({ status: false, message: error });
+  }
+});
+
+app.get('/api/v1/report-new', async function (req, res) {
+  try {
+    const { url } = req.query;
+    const data = await pa11y(url, {
+      includeWarnings: true,
+      includeNotices: true,
+    });
+    res.status(200).json({ status: true, data });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ status: false, message: error });
   }
 });
