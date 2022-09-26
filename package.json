@@ -18,7 +18,8 @@
     "aatt": "^1.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
-    "node-fetch": "^3.2.10"
+    "node-fetch": "^3.2.10",
+    "wcag-pdf": "^5.0.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
